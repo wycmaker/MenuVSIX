@@ -1,0 +1,8 @@
+﻿using @dataPath;
+
+namespace @dataPath.Queries
+{
+    public class @queryModel
+    {
+    }
+}

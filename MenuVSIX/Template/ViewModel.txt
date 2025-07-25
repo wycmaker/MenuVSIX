@@ -1,0 +1,12 @@
+﻿using @dataPath;
+
+namespace @corePath.Models.@tableName
+{
+    public class @viewModel
+    {
+        /// <summary>
+        /// PK
+        /// </summary>
+        public int Id { get; set; }
+    }
+}

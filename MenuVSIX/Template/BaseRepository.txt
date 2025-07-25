@@ -1,0 +1,33 @@
+﻿using common.data;
+using common.data.Implement;
+using common.data.Models;
+using Microsoft.EntityFrameworkCore;
+using @dataPath;
+using @dataPath.Models;
+using @dataPath.Queries;
+using @dataPath.Repositories.Interface;
+
+namespace @dataPath.Repositories.Implement
+{
+    public class @tableNameRepository : BaseRepository<@contextName, @tableName>, I@tableNameRepository
+    {
+        public @tableNameRepository(@contextName context) : base(context) { }
+
+        public override async Task<@tableName?> GetDataAsync<TProperty>(TProperty targetId)
+        {
+            return await this.GetDataAsync(targetId);
+        }
+        @if isSub
+        public async Task<(int totalCount, List<@tableName> entities)> GetList(QueryModel<@queryModel> model)
+        {
+            var entity = GetAll();
+
+            var totalCount = await entity.CountAsync();
+            entity = entity.OrderBy(r => r.Id).GetPageData(model.Skip, model.Take);
+
+            return (totalCount, await entity.ToListAsync());
+        }
+        @else
+        @endif
+    }
+}

@@ -1,0 +1,86 @@
+﻿using AutoMapper;
+using common.core.Models;
+using common.data.Interface;
+using common.data.Models;
+using @corePath.Models.@tableName;
+using @corePath.Services.Interface;
+using @dataPath;
+using @dataPath.Queries;
+using @dataPath.Repositories.Interface;
+
+namespace @corePath.Services.Implement
+{
+    /// <summary>
+    /// @tableNameService
+    /// </summary>
+    public class @tableNameService : I@tableNameService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly I@tableNameRepository _repository;
+
+        public @tableNameService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _repository = _unitOfWork.GetInstance<I@tableNameRepository>();
+        }
+
+        public async Task<@viewModel?> GetData(int id)
+        {
+            var data = await _repository.GetDataAsync(id);
+
+            if (data == null) return null;
+
+            return _mapper.Map<@viewModel>(data);
+        }
+
+        public async Task<QueryResult<@listModel>> GetList(QueryModel<@queryModel> model)
+        {
+            (var totalCount, var data) = await _repository.GetList(model);
+
+            return new QueryResult<@listModel>
+            {
+                TotalCount = totalCount,
+                Data = _mapper.Map<List<@listModel>>(data)
+            };
+        }
+
+        public async Task<ModifyResult<string>> UpdateData(@viewModel model)
+        {
+            await _unitOfWork.BeginTransaction();
+
+            var data = await _repository.GetDataAsync(model.Id);
+
+            var dateTime = DateTime.Now;
+
+            if (data == null)
+            {
+                data = _repository.CreateInstance();
+
+                //data.CreateTime = dateTime;
+                //data.CreateUser = 1;
+
+                await _repository.AddAsync(data);
+            }
+
+            _mapper.Map(model, data);
+
+            //data.LastUpdateUser = 1;
+            //data.LastUpdateTime = dateTime;
+
+            _repository.Update(data);
+
+            await _unitOfWork.SaveChanges();
+            await _unitOfWork.Commit();
+
+            return new ModifyResult<string>
+            {
+                RtnCode = ERtnCode.成功執行,
+                RtnMsg = "更新資料成功"
+            };
+        }
+    }
+
+}
+

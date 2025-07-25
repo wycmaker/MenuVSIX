@@ -1,0 +1,25 @@
+﻿using common.data.Interface;
+using common.data.Models;
+using @dataPath.Models;
+using @dataPath.Queries;
+
+namespace @dataPath.Repositories.Interface
+{
+    /// <summary>
+    /// I@tableNameRepository
+    /// </summary>
+    /// <typeparam name="TContext">Context物件類型</typeparam>
+    /// <typeparam name="TData">資料表類型</typeparam>
+    public interface I@tableNameRepository : ICrudRepository<@contextName, @tableName>
+    {
+        @if isSub
+        /// <summary>
+        /// 取得列表
+        /// </summary>
+        /// <param name="model">查詢物件</param>
+        /// <returns></returns>
+        Task<(int totalCount, List<@tableName> entities)> GetList(QueryModel<@queryModel> model);
+        @else
+        @endif
+    }
+}

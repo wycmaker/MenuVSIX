@@ -1,0 +1,31 @@
+﻿using common.core.Models;
+using common.data.Models;
+using @corePath.Models.@tableName;
+using @dataPath.Queries;
+
+namespace @corePath.Services.Interface
+{
+    public interface I@tableNameService
+    {
+        /// <summary>
+        /// 取得資料
+        /// </summary>
+        /// <param name="id">PK</param>
+        /// <returns></returns>
+        Task<@viewModel?> GetData(int id);
+
+        /// <summary>
+        /// 取得列表
+        /// </summary>
+        /// <param name="model">查詢物件</param>
+        /// <returns></returns>
+        Task<QueryResult<@listModel>> GetList(QueryModel<@queryModel> model);
+
+        /// <summary>
+        /// 更新資料
+        /// </summary>
+        /// <param name="model">資料</param>
+        /// <returns></returns>
+        Task<ModifyResult<string>> UpdateData(@viewModel model);
+    }
+}

@@ -1,0 +1,8 @@
+﻿using @dataPath;
+
+namespace @corePath.Models.@tableName
+{
+    public class @listModel
+    {
+    }
+}

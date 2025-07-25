@@ -1,0 +1,23 @@
+﻿using common.core;
+using common.core.Profiles;
+using @corePath.Models.@tableName;
+using @dataPath;
+using @dataPath.Models;
+
+namespace @corePath.Profiles
+{
+    /// <summary>
+    /// @tableNameProfile
+    /// </summary>
+    public class @tableNameProfile : BaseProfile
+    {
+        public @tableNameProfile()
+        {
+            CreateMap<@viewModel, @tableName>();
+
+            CreateMap<@tableName, @viewModel>();
+
+            CreateMap<@tableName, @listModel>();
+        }
+    }
+}

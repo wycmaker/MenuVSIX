@@ -1,0 +1,72 @@
+﻿using common.core;
+using common.core.Utils;
+using common.data.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using @corePath.Models.@tableName;
+using @corePath.Services.Interface;
+using @dataPath.Models;
+using @dataPath.Queries;
+using System.ComponentModel;
+
+namespace @apiPath.Controllers
+{
+    /// <summary>
+    /// @tableNameController
+    /// </summary>
+    [AllowAnonymous]
+    public class @tableNameController : BaseController<@contextName>
+    {
+        private readonly I@tableNameService _service;
+
+        public @tableNameController(I@tableNameService service, JwtUtil jwtUtils, LoggerUtil<@contextName> loggerUtils) : base(jwtUtils, loggerUtils)
+        {
+            _service = service;
+        }
+
+        [HttpPost]
+        [Description("取得資料")]
+        [Consumes("application/json")]
+        public IActionResult GetData([FromBody] int id)
+        {
+            try
+            {
+                return Data(_service.GetData(id));
+            }
+            catch (Exception ex)
+            {
+                return Bad("取得資料發生錯誤", ex);
+            }
+        }
+
+        [HttpPost]
+        [Description("取得列表")]
+        [Consumes("application/json")]
+        public IActionResult GetList(QueryModel<@queryModel> model)
+        {
+            try
+            {
+                return List(_service.GetList(model));
+            }
+            catch (Exception ex)
+            {
+                return Bad("取得列表發生錯誤", ex);
+            }
+        }
+
+        [HttpPost]
+        [Description("更新資料")]
+        [Consumes("application/json")]
+        public IActionResult UpdateData(@viewModel model)
+        {
+            try
+            {
+                return Result(_service.UpdateData(model));
+            }
+            catch (Exception ex)
+            {
+                return Bad("更新發生錯誤", ex);
+            }
+        }
+    }
+}
